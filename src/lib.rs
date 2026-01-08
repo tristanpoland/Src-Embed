@@ -62,13 +62,13 @@ use quote::quote;
 pub fn src_embed(args: TokenStream, input: TokenStream) -> TokenStream {
     use syn::{parse_macro_input, Item, Type};
 
-    // Parse the input - accepts any Rust item (trait, impl, struct, etc.)
-    let input_parsed = parse_macro_input!(input as Item);
-
     // Preserve the original token stream text (this includes attributes
     // such as doc comments). We capture the raw input *before* parsing so
     // that the embedded string reflects the original source as written.
     let raw_source = input.to_string();
+
+    // Parse the input - accepts any Rust item (trait, impl, struct, etc.)
+    let input_parsed = parse_macro_input!(input as Item);
     let source_code = syn::LitStr::new(&raw_source, proc_macro2::Span::call_site());
 
     // Extract the name of the item to generate a unique const name
